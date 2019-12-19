@@ -1,0 +1,30 @@
+iam_policies:
+  sts:
+    action:
+      - sts:AssumeRole
+  ecr-mamange-repos:
+    action:
+      - ecr:*
+  s3-list-ciinabox-bucket:
+    action:
+      - s3:ListBucket
+    resource:
+      - Fn::Sub: arn:aws:s3:::${S3Bucket}
+  s3-rw:
+    action:
+      - s3:GetObject
+      - s3:GetObjectAcl
+      - s3:GetObjectVersion
+      - s3:PutObject
+      - s3:PutObjectAcl
+    resource:
+      - Fn::Sub: arn:aws:s3:::${S3Bucket}/*
+  ssm-ssh-access:
+    action:
+      - ssm:UpdateInstanceInformation
+      - ssm:ListInstanceAssociations
+      - ec2messages:GetMessages
+      - ssmmessages:CreateControlChannel
+      - ssmmessages:CreateDataChannel
+      - ssmmessages:OpenControlChannel
+      - ssmmessages:OpenDataChannel
