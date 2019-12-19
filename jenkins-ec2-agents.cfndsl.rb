@@ -41,7 +41,7 @@ CloudFormation do
   # SSM_Parameter(:LinuxAmi) {
   #   Description "AMI Id for the Jenkins linux agent"
   #   Name FnSub("/ciinabox/${EnvironmentName}/agent/linux/ami")
-  #   Tier 'Standard'
+  #   Property('Tier','Standard')
   #   Type 'String'
   #   Value Ref(:LinuxAmi)
   #   Tags agent_tags.to_json
@@ -50,7 +50,7 @@ CloudFormation do
   # SSM_Parameter(:WindowsAmi) {
   #   Description "AMI Id for the Jenkins linux agent"
   #   Name FnSub("/ciinabox/${EnvironmentName}/agent/windows/ami")
-  #   Tier 'Standard'
+  #   Property('Tier','Standard')
   #   Type 'String'
   #   Value Ref(:WindowsAmi)
   #   Tags agent_tags.to_json
@@ -59,7 +59,7 @@ CloudFormation do
   SSM_Parameter(:SubnetsParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/subnets")
-    Tier 'Standard'
+    Property('Tier','Standard')
     Type 'String'
     Value FnJoin(' ', [Ref(:SubnetIds)])
     Tags agent_tags.to_json
@@ -68,7 +68,7 @@ CloudFormation do
   SSM_Parameter(:SecurityGroupParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/securitygroup")
-    Tier 'Standard'
+    Property('Tier','Standard')
     Type 'String'
     Value Ref(:SecurityGroup)
     Tags agent_tags.to_json
@@ -77,7 +77,7 @@ CloudFormation do
   SSM_Parameter(:InstanceProfileParameter) {
     Description "Instance Profile for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/iam")
-    Tier 'Standard'
+    Property('Tier','Standard')
     Type 'String'
     Value FnGetAtt(:InstanceProfile,:Arn)
     Tags agent_tags.to_json
