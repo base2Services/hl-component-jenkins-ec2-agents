@@ -8,8 +8,9 @@ CfhighlanderTemplate do
     ComponentParam 'EnvironmentName', 'dev', isGlobal: true
     ComponentParam 'EnvironmentType', 'development', allowedValues: ['development','production'], isGlobal: true
     ComponentParam 'S3Bucket'
-    ComponentParam 'VPCId'
-    ComponentParam 'JenkinsMasterSecurityGroup'
+    ComponentParam 'VPCId', type: 'AWS::EC2::VPC::Id'
+    ComponentParam 'JenkinsMasterSecurityGroup', type: 'AWS::EC2::SecurityGroup::Id'
+    ComponentParam 'Subnets', type: 'CommaDelimitedList'
   end
 
 
