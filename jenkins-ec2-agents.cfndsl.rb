@@ -61,7 +61,7 @@ CloudFormation do
     Name FnSub("/ciinabox/${EnvironmentName}/agent/subnets")
     Property('Tier','Standard')
     Type 'String'
-    Value FnJoin(' ', [Ref(:SubnetIds)])
+    Value FnJoin(' ', [Ref(:Subnets)])
     Property('Tags', agent_tags.to_json)
   }
   
