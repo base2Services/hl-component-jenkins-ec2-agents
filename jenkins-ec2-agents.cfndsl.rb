@@ -44,7 +44,7 @@ CloudFormation do
   #   Property('Tier','Standard')
   #   Type 'String'
   #   Value Ref(:LinuxAmi)
-  #   Tags agent_tags.to_json
+  #   Property('Tags', agent_tags.to_json)
   # }
   
   # SSM_Parameter(:WindowsAmi) {
@@ -53,7 +53,7 @@ CloudFormation do
   #   Property('Tier','Standard')
   #   Type 'String'
   #   Value Ref(:WindowsAmi)
-  #   Tags agent_tags.to_json
+  #   Property('Tags', agent_tags.to_json)
   # }
   
   SSM_Parameter(:SubnetsParameter) {
@@ -62,7 +62,7 @@ CloudFormation do
     Property('Tier','Standard')
     Type 'String'
     Value FnJoin(' ', [Ref(:SubnetIds)])
-    Tags agent_tags.to_json
+    Property('Tags', agent_tags.to_json)
   }
   
   SSM_Parameter(:SecurityGroupParameter) {
@@ -71,7 +71,7 @@ CloudFormation do
     Property('Tier','Standard')
     Type 'String'
     Value Ref(:SecurityGroup)
-    Tags agent_tags.to_json
+    Property('Tags', agent_tags.to_json)
   }
   
   SSM_Parameter(:InstanceProfileParameter) {
@@ -80,7 +80,7 @@ CloudFormation do
     Property('Tier','Standard')
     Type 'String'
     Value FnGetAtt(:InstanceProfile,:Arn)
-    Tags agent_tags.to_json
+    Property('Tags', agent_tags.to_json)
   }
   
 end
