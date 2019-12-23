@@ -4,7 +4,7 @@ CloudFormation do
   agent_tags << { Key: 'Name', Value: FnSub("${EnvironmentName}-#{component_name}") }
   agent_tags << { Key: 'EnvironmentName', Value: Ref(:EnvironmentName) }
   agent_tags << { Key: 'EnvironmentType', Value: Ref(:EnvironmentType) }
-  agent_tags << { Key: 'cii' }
+  
   IAM_Role(:Role) {
     Path '/'
     AssumeRolePolicyDocument service_assume_role_policy('ec2')
@@ -38,30 +38,30 @@ CloudFormation do
     Tags agent_tags
   }
   
-  # SSM_Parameter(:LinuxAmi) {
-  #   Description "AMI Id for the Jenkins linux agent"
-  #   Name FnSub("/ciinabox/${EnvironmentName}/agent/linux/ami")
-  #   Property('Tier','Standard')
-  #   Type 'String'
-  #   Value Ref(:LinuxAmi)
-  #   Property('Tags', agent_tags.to_json)
-  # }
+  SSM_Parameter(:LinuxAmi) {
+    Description "AMI Id for the Jenkins linux agent"
+    Name FnSub("/ciinabox/${EnvironmentName}/agent/linux/ami")
+    Property('Tier','Standard')
+    Type 'String'
+    Value 'ami-replaceme'
+    Property('Tags', agent_tags.to_json)
+  }
   
-  # SSM_Parameter(:WindowsAmi) {
-  #   Description "AMI Id for the Jenkins linux agent"
-  #   Name FnSub("/ciinabox/${EnvironmentName}/agent/windows/ami")
-  #   Property('Tier','Standard')
-  #   Type 'String'
-  #   Value Ref(:WindowsAmi)
-  #   Property('Tags', agent_tags.to_json)
-  # }
+  SSM_Parameter(:WindowsAmi) {
+    Description "AMI Id for the Jenkins linux agent"
+    Name FnSub("/ciinabox/${EnvironmentName}/agent/windows/ami")
+    Property('Tier','Standard')
+    Type 'String'
+    Value 'ami-replaceme'
+    Property('Tags', agent_tags.to_json)
+  }
   
   SSM_Parameter(:SubnetsParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/subnets")
     Property('Tier','Standard')
     Type 'String'
-    Value FnJoin(' ', [Ref(:Subnets)])
+    Value FnJoin(' ', Ref(:Subnets))
     Property('Tags', agent_tags.to_json)
   }
   
