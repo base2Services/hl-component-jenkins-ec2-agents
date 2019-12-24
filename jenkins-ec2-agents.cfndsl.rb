@@ -38,22 +38,28 @@ CloudFormation do
     Tags agent_tags
   }
   
-  SSM_Parameter(:LinuxAmi) {
+  SSM_Parameter(:LinuxAmiParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/linux/ami")
     Property('Tier','Standard')
     Type 'String'
     Value 'ami-replaceme'
-    Property('Tags', agent_tags.to_json)
+    Property('Tags',{
+      Name: "#{component_name}-linux-ami",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
   }
   
-  SSM_Parameter(:WindowsAmi) {
+  SSM_Parameter(:WindowsAmiParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/windows/ami")
     Property('Tier','Standard')
     Type 'String'
     Value 'ami-replaceme'
-    Property('Tags', agent_tags.to_json)
+    Property('Tags',{
+      Name: "#{component_name}-windows-ami",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
   }
   
   SSM_Parameter(:SubnetsParameter) {
@@ -62,7 +68,10 @@ CloudFormation do
     Property('Tier','Standard')
     Type 'String'
     Value FnJoin(' ', Ref(:Subnets))
-    Property('Tags', agent_tags.to_json)
+    Property('Tags',{
+      Name: "#{component_name}-subnets",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
   }
   
   SSM_Parameter(:SecurityGroupParameter) {
@@ -71,7 +80,10 @@ CloudFormation do
     Property('Tier','Standard')
     Type 'String'
     Value Ref(:SecurityGroup)
-    Property('Tags', agent_tags.to_json)
+    Property('Tags',{
+      Name: "#{component_name}-security-group",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
   }
   
   SSM_Parameter(:InstanceProfileParameter) {
@@ -80,7 +92,10 @@ CloudFormation do
     Property('Tier','Standard')
     Type 'String'
     Value FnGetAtt(:InstanceProfile,:Arn)
-    Property('Tags', agent_tags.to_json)
+    Property('Tags',{
+      Name: "#{component_name}-instance-profile",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
   }
   
 end
