@@ -1,9 +1,11 @@
 CloudFormation do
   
   agent_tags = []
-  agent_tags << { Key: 'Name', Value: FnSub("${EnvironmentName}-#{component_name}") }
+  agent_tags << { Key: 'Name', Value: FnSub("${EnvironmentName}-#{external_parameters[:component_name]}") }
   agent_tags << { Key: 'EnvironmentName', Value: Ref(:EnvironmentName) }
   agent_tags << { Key: 'EnvironmentType', Value: Ref(:EnvironmentType) }
+  
+  iam_policies = external_parameters.fetch(:iam_policies, {})
   
   IAM_Role(:Role) {
     Path '/'
@@ -19,7 +21,7 @@ CloudFormation do
   
   EC2_SecurityGroup(:SecurityGroup) {
     VpcId Ref(:VPCId)
-    GroupDescription FnSub("${EnvironmentName}-#{component_name}")
+    GroupDescription FnSub("${EnvironmentName}-#{external_parameters[:component_name]}")
     SecurityGroupIngress([
       {
         Description: 'ssh access from jenkins master',
@@ -45,7 +47,7 @@ CloudFormation do
     Type 'String'
     Value 'ami-replaceme'
     Property('Tags',{
-      Name: "#{component_name}-linux-ami",
+      Name: "#{external_parameters[:component_name]}-linux-ami",
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
@@ -57,7 +59,7 @@ CloudFormation do
     Type 'String'
     Value 'ami-replaceme'
     Property('Tags',{
-      Name: "#{component_name}-windows-ami",
+      Name: "#{external_parameters[:component_name]}-windows-ami",
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
@@ -69,7 +71,7 @@ CloudFormation do
     Type 'String'
     Value FnJoin(' ', Ref(:Subnets))
     Property('Tags',{
-      Name: "#{component_name}-subnets",
+      Name: "#{external_parameters[:component_name]}-subnets",
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
@@ -81,7 +83,7 @@ CloudFormation do
     Type 'String'
     Value Ref(:SecurityGroup)
     Property('Tags',{
-      Name: "#{component_name}-security-group",
+      Name: "#{external_parameters[:component_name]}-security-group",
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
@@ -93,7 +95,7 @@ CloudFormation do
     Type 'String'
     Value FnGetAtt(:InstanceProfile,:Arn)
     Property('Tags',{
-      Name: "#{component_name}-instance-profile",
+      Name: "#{external_parameters[:component_name]}-instance-profile",
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
