@@ -13,5 +13,6 @@ CfhighlanderTemplate do
     ComponentParam 'Subnets', type: 'CommaDelimitedList'
   end
 
+  LambdaFunctions 'ami_finder_custom_resources'
 
 end

@@ -1,3 +1,5 @@
+linux_ami: 'Amzn2_Linux_Jenkins_Agent-*'
+
 iam_policies:
   sts:
     action:
@@ -28,3 +30,29 @@ iam_policies:
       - ssmmessages:CreateDataChannel
       - ssmmessages:OpenControlChannel
       - ssmmessages:OpenDataChannel
+
+ami_finder_custom_resources:
+  custom_policies:
+    ami:
+      action:
+        - ec2:DescribeImages
+      resource: '*'
+    lambda:
+      action:
+        - lambda:InvokeFunction
+      resource:
+        Fn::Sub: arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:AmiFinderCR
+  roles:
+    AmiFinderResource:
+      policies_inline:
+        - cloudwatch-logs
+        - ami
+        - lambda
+  functions:
+    AmiFinderCR:
+      code: ami_finder/app.py
+      handler: app.handler
+      runtime: python3.8
+      timeout: 600
+      role: AmiFinderResource
+      package_cmd: 'pip install -r requirements.txt -t .'

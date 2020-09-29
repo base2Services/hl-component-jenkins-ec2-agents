@@ -40,18 +40,24 @@ CloudFormation do
     Tags agent_tags
   }
   
+  Resource(:LinuxAmiFinder) {
+    Type 'Custom::LinuxAmiFinder'
+    Property 'ServiceToken', FnGetAtt(:AmiFinderCR, :Arn)
+    Property 'Name', linux_ami
+  }
+
   SSM_Parameter(:LinuxAmiParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/linux/ami")
     Property('Tier','Standard')
     Type 'String'
-    Value 'ami-replaceme'
+    Value Ref(:LinuxAmiFinder)
     Property('Tags',{
       Name: "#{external_parameters[:component_name]}-linux-ami",
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
-  
+
   SSM_Parameter(:WindowsAmiParameter) {
     Description "AMI Id for the Jenkins linux agent"
     Name FnSub("/ciinabox/${EnvironmentName}/agent/windows/ami")
