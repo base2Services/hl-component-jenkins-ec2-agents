@@ -39,6 +39,14 @@ CloudFormation do
     ])
     Tags agent_tags
   }
+
+  EC2_SecurityGroupIngress(:SelfSSHIngressRule) {
+    Description 'ssh access for packer instances'
+    FromPort 22
+    ToPort 22
+    IpProtocol 'TCP'
+    SourceSecurityGroupId Ref(:SecurityGroup)
+  }
   
   Resource(:LinuxAmiFinder) {
     Type 'Custom::LinuxAmiFinder'
