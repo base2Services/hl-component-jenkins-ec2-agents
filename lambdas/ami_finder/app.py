@@ -36,6 +36,3 @@ def get_latest_ami(name):
 
 def handler(event, context):
     helper(event, context)
-
-
-    'Amzn2_Linux_Jenkins_Agent-*'

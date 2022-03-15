@@ -113,5 +113,29 @@ CloudFormation do
       EnvironmentName: Ref(:EnvironmentName)
     })
   }
+
+  SSM_Parameter(:JenkinsEFSParameter) {
+    Description "Jenkins EFS ID"
+    Name FnSub("/ciinabox/${EnvironmentName}/agent/efs")
+    Property('Tier','Standard')
+    Type 'String'
+    Value Ref(:JenkinsFileSystem)
+    Property('Tags',{
+      Name: "#{external_parameters[:component_name]}-efs-id",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
+  }
+
+  SSM_Parameter(:JenkinsAgentCacheAccessPointParameter) {
+    Description "Jenkins EFS agent access point ID for the Jenkins linux agent to attach in userdata for caching builds"
+    Name FnSub("/ciinabox/${EnvironmentName}/agent/cache-ap")
+    Property('Tier','Standard')
+    Type 'String'
+    Value Ref(:JenkinsAgentCacheAccessPoint)
+    Property('Tags',{
+      Name: "#{external_parameters[:component_name]}-efs-cache-access-point",
+      EnvironmentName: Ref(:EnvironmentName)
+    })
+  }
   
 end

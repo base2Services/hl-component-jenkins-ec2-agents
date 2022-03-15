@@ -11,6 +11,8 @@ CfhighlanderTemplate do
     ComponentParam 'VPCId', type: 'AWS::EC2::VPC::Id'
     ComponentParam 'JenkinsMasterSecurityGroup', type: 'AWS::EC2::SecurityGroup::Id'
     ComponentParam 'Subnets', type: 'CommaDelimitedList'
+    ComponentParam 'JenkinsFileSystem', ''
+    ComponentParam 'JenkinsAgentCacheAccessPoint', ''
   end
 
   LambdaFunctions 'ami_finder_custom_resources'
