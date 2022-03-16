@@ -46,6 +46,7 @@ CloudFormation do
     ToPort 22
     IpProtocol 'TCP'
     GroupId Ref(:SecurityGroup)
+    SourceSecurityGroupId Ref(:SecurityGroup)
   }
   
   Resource(:LinuxAmiFinder) {
