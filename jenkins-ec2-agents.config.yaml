@@ -52,7 +52,7 @@ ami_finder_custom_resources:
     AmiFinderCR:
       code: ami_finder/app.py
       handler: app.handler
-      runtime: python3.8
+      runtime: python3.11
       timeout: 600
       role: AmiFinderResource
       package_cmd: 'pip install -r requirements.txt -t .'
